@@ -1,0 +1,97 @@
+<table class="table table-advance table-hover table-striped table-checkable order-column" id="">
+    <thead>
+        <tr>
+            <th width='1%'>
+                <%= erp_datalist_check_all %>
+            </th>
+            <% if get_columns(params).include?("name") %>
+                <th class="sortable" sort-by='erp_periods_periods.name'>
+                    <%= t('.name') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("from_date") %>
+                <th class="sortable" sort-by='erp_periods_periods.from_date'>
+                    <%= t('.from_date') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("to_date") %>
+                <th class="sortable" sort-by='erp_periods_periods.to_date'>
+                    <%= t('.to_date') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("status") %>
+                <th>
+                    <%= t('.status') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("creator") %>
+                <th class="text-center">
+                    <%= t('.creator') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("created_at") %>
+                <th class="sortable" sort-by='erp_periods_periods.created_at'>
+                    <%= t('.created_at') %>
+                </th>
+            <% end %>
+            <th width="7%"><%= t('.actions') %></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @periods.each do |period| %>
+            <tr class="<%= 'blurred' if period.is_deleted? %> odd gradeX">
+                <td>
+                    <%= erp_datalist_check_row(id: period.id) %>
+                </td>
+                <% if get_columns(params).include?("name") %>
+                <td>
+                    <strong><%= period.name %></strong>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("from_date") %>
+                <td><%= format_date(period.from_date) %></td>
+                <% end %>
+                <% if get_columns(params).include?("to_date") %>
+                <td><%= format_date(period.to_date) %></td>
+                <% end %>
+                <% if get_columns(params).include?("status") %>
+                <td>
+                    <%= status_label(period.status) %>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("creator") %>
+                <td>
+                    <%= erp_component('avatar', {
+                        user: period.creator
+                    }) %>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("created_at") %>
+                <td><%= format_date(period.created_at) %></td>
+                <% end %>
+                <td>
+                    <%= erp_datalist_row_actions(
+                        [
+                            {
+                                text: '<i class="fa fa-edit"></i> '+t('.edit'),
+                                url: erp_periods.edit_backend_period_path(period)
+                            },
+                            {
+                              text: '<i class="fa fa-trash"></i> '+t('.delete'),
+                              url: erp_periods.set_deleted_backend_periods_path(id: period.id),
+                              data_method: 'PUT',
+                              data_confirm: t('delete_confirm'),
+                              class: 'ajax-link'
+                            }
+                        ]
+                    ) %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+<% if @periods.empty? %>
+    <div class="datalist-empty-line"><%= t('.no_matching_records_found') %></div>
+<% end %>
+    
+<%= erp_datalist_pagination(@periods) %>

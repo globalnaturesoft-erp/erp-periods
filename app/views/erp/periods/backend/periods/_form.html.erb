@@ -1,0 +1,52 @@
+<%= form_for([erp_periods, :backend, period], html: {multipart: true}) do |f| %>
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <%= erp_form_control("text", {
+                                    name: 'period[name]',
+                                    value: period.name,
+                                    label: t('.name'),
+                                    help: t('.help_name'),
+                                    placeholder: t('.placeholder_name'),
+                                    required: true,
+                                    errors: period.errors.full_messages_for(:name)
+                                }) %>
+                            </div>
+                            <div class="col-md-4">
+                                <%= erp_form_control('date', {
+                                    label: t('.from_date'),
+                                    name: 'period[from_date]',
+                                    value: period.from_date,
+                                    placeholder: t('.choose_from_date'),
+                                    required: true,
+                                    errors: period.errors.full_messages_for(:from_date)
+                                }) %>
+                            </div>
+                            <div class="col-md-4">
+                                <%= erp_form_control('date', {
+                                    label: t('.to_date'),
+                                    name: 'period[to_date]',
+                                    value: period.to_date,
+                                    placeholder: t('.choose_to_date'),
+                                    required: true,
+                                    errors: period.errors.full_messages_for(:to_date)
+                                }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%= erp_component('button/save', {
+        text: t('.submit')
+    }) %>
+    <%= erp_component('button/cancel', {
+        text: t('.cancel'),
+        href: erp_periods.backend_periods_path
+    }) %>
+<% end %>

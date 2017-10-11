@@ -1,0 +1,60 @@
+<% content_for :title do %>
+    <%= t('.periods') %>
+<% end %>
+
+<% content_for :page_title do %>
+    <i class="fa fa-calendar"></i> <%= t('.periods') %>
+<% end %>
+
+<% content_for :page_toolbar do %>
+    <%= erp_component('button/create', {
+        text: t('.create'),
+        href: erp_periods.new_backend_period_path,
+        class: 'btn-noborder'
+    }) %>
+<% end %>
+
+<%= erp_datalist(
+    url: erp_periods.list_backend_periods_path,
+    keywords: [
+        {
+            text: t('.name'), name: 'erp_periods_periods.name'
+        }
+    ],
+    actions: [
+        {
+            text: '<i class="fa fa-trash"></i> '+t('.delete'),
+            url: erp_periods.set_deleted_all_backend_periods_path,
+            data_method: 'PUT',
+            data_confirm: t('.delete_confirm')
+        }
+    ],
+    filters: [
+        {
+            text: t('.active'), name: 'erp_periods_periods.status', value: Erp::Periods::Period::STATUS_ACTIVE, checked: true
+        },
+        {
+            text: t('.deleted'), name: 'erp_periods_periods.status', value: Erp::Periods::Period::STATUS_DELETED, checked: false
+        }
+    ],
+    columns: [
+        {
+            text: t('.name'), name: 'name', value: true, checked: true
+        },
+        {
+            text: t('.from_date'), name: 'from_date', value: true, checked: true
+        },
+        {
+            text: t('.to_date'), name: 'to_date', value: true, checked: true
+        },
+        {
+            text: t('.status'), name: 'status', value: true, checked: true
+        },
+        {
+            text: t('.creator'), name: 'creator', value: true, checked: false
+        },
+        {
+            text: t('.created_at'), name: 'created_at', value: true, checked: false
+        }
+    ]
+) %>

@@ -1,0 +1,29 @@
+<% content_for :title do %>
+    <%= t('.edit') %>
+<% end %>
+
+<% content_for :page_title do %>    
+    <a href="<%= erp_periods.backend_periods_path %>">
+    <i class="fa fa-calendar"></i> <%= t('.periods') %>
+    </a> / <%= @period.name %>
+<% end %>
+
+<% content_for :page_toolbar do %>
+    <%= erp_component('button/create', {
+        text: t('.create'),
+        href: erp_periods.new_backend_period_path,
+        class: 'btn-noborder'
+    }) %>
+<% end %>
+
+<div class="row">
+    <div class="col-md-12">
+        <% if @period.errors.any? %>
+            <%= erp_form_control("form_error_message") %>
+        <% end %>
+        
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <%= render 'form', period: @period %>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>

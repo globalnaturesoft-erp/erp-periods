@@ -1,0 +1,70 @@
+vi:
+  erp:
+    periods:
+      backend:
+        periods:
+          create:
+            success: "Chu kỳ đã được thêm thành công"
+          update:
+            success: "Chu kỳ đã được cập nhật thành công"
+          set_active:
+            success: "Chu kỳ đã được kích hoạt thành công"
+          set_deleted:
+            success: "Chu kỳ đã được xóa thành công"
+          index:
+            periods: "Quản lý chu kỳ thời gian"
+            create: "Thêm chu kỳ"
+            active: "Kích hoạt"
+            deleted: "Đã xóa"
+            name: "Tên chu kỳ"
+            from_date: "Ngày đầu kỳ"
+            to_date: "Ngày cuối kỳ"
+            status: "Trạng thái"
+            creator: "Người tạo"
+            created_at: "Ngày tạo"
+          list:
+            active: "Kích hoạt"
+            deleted: "Đã xóa"
+            name: "Tên chu kỳ"
+            from_date: "Ngày đầu kỳ"
+            to_date: "Ngày cuối kỳ"
+            status: "Trạng thái"
+            creator: "Người tạo"
+            created_at: "Ngày tạo"
+            actions: "Hành động"
+            no_matching_records_found: "Danh sách chu kỳ không được tìm thấy"
+            edit: "Chỉnh sửa"
+            delete: "Xóa cài đặt"
+          new:
+            periods: "Quản lý chu kỳ thời gian"
+            create: "Thêm chu kỳ"
+          edit:
+            periods: "Quản lý chu kỳ thời gian"
+            edit: "Chỉnh sửa"
+            create: "Thêm chu kỳ"
+          form:
+            name: "Tên chu kỳ"
+            help_name: "Ví dụ: Tháng 1/2017, Quý 1 năm 2017, ..."
+            placeholder_name: "Nhập tên chu kỳ"
+            from_date: "Ngày đầu kỳ"
+            choose_from_date: "Từ ngày..."
+            to_date: "Ngày cuối kỳ"
+            choose_to_date: "Đến ngày..."
+            submit: "Lưu"
+            cancel: "Hủy"
+  activerecord:
+    attributes:
+      erp/periods/period:
+        name: "Tên chu kỳ"
+        from_date: "Ngày đầu kỳ"
+        to_date: "Ngày cuối kỳ"
+    errors:
+      models:
+        erp/periods/period:
+          attributes:
+            name:
+              blank: "không được để trống"
+            from_date:
+              blank: "không được để trống"
+            to_date:
+              blank: "không được để trống"
