@@ -61,6 +61,19 @@ module Erp::Periods
       return query
     end
     
+    # data for dataselect ajax
+    def self.dataselect(keyword='', params='')
+      
+      query = self.where(status: Erp::Periods::Period::STATUS_ACTIVE)
+
+      if keyword.present?
+        keyword = keyword.strip.downcase
+        query = query.where('LOWER(name) LIKE ?', "%#{keyword}%")
+      end
+
+      query = query.limit(8).map{|period| {value: period.id, text: period.name} }
+    end
+    
     def set_active
       update_columns(status: Erp::Periods::Period::STATUS_ACTIVE)
     end

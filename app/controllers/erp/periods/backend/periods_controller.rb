@@ -70,6 +70,15 @@ module Erp
             render :edit
           end
         end
+        
+        # dataselect /periods
+        def dataselect
+          respond_to do |format|
+            format.json {
+              render json: Period.dataselect(params[:keyword], params)
+            }
+          end
+        end
     
         # Active /periods/status?id=1
         def set_active

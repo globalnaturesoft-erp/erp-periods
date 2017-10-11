@@ -4,6 +4,7 @@ Erp::Periods::Engine.routes.draw do
       resources :periods do
         collection do
           post 'list'
+					get 'dataselect'
           put 'set_active'
           put 'set_deleted'
           put 'set_active_all'
