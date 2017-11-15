@@ -93,5 +93,25 @@ module Erp::Periods
     def is_deleted?
       return status == Erp::Periods::Period::STATUS_DELETED
     end
+    
+    # Get time array
+    def self.get_time_array # @todo bổ sung lọc theo params
+			times = []
+			number_of_months = 0..Date.today.month
+			number_of_months.to_a.reverse.each do |month_offset|
+				date = month_offset.months.ago
+				if month_offset == Date.today.month
+					start_date = month_offset.months.ago.beginning_of_year
+					end_date = month_offset.months.ago.end_of_year
+					times << {name: "#{I18n.t('erp.periods.year')} #{date.year}" , from: start_date, to: end_date}
+				else
+					start_date = month_offset.months.ago.beginning_of_month
+					end_date = month_offset.months.ago.end_of_month
+					times << {name: "#{I18n.t('erp.periods.month')} #{date.month}/#{date.year}", from: start_date, to: end_date}
+				end
+				#puts "Start date : #{start_date} End date : #{end_date}"
+			end
+			return times
+		end
   end
 end

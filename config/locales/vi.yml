@@ -1,6 +1,9 @@
 vi:
   erp:
     periods:
+      year: "Năm"
+      month: "Tháng"
+      day: "Ngày"
       backend:
         periods:
           create:
