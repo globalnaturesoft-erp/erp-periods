@@ -71,7 +71,7 @@ module Erp::Periods
         query = query.where('LOWER(name) LIKE ?', "%#{keyword}%")
       end
 
-      query = query.limit(8).map{|period| {value: period.id, text: period.name} }
+      query = query.order("created_at DESC").limit(20).map{|period| {value: period.id, text: period.name} }
     end
     
     def set_active
@@ -125,5 +125,70 @@ module Erp::Periods
 			end
 			return times
 		end
+    
+    # auto create an year periods
+    def self.create_year_periods(year)      
+      date = "#{year}-01-01".to_date.beginning_of_year
+      
+      return false if !self.where("to_date >= ?", date).empty?
+      
+      # 12 months
+      (0..11).each do |i|
+        month = date + i.months
+        self.create(
+          name: "Tháng #{i+1}/#{date.year}",
+          from_date: month.beginning_of_month,
+          to_date: month.end_of_month,
+          creator_id: Erp::User.first.id,
+          status: self::STATUS_ACTIVE,
+        )
+      end
+      
+      # 4 quaters      
+      self.create(
+        name: "Quý 1/#{date.year}",
+        from_date: date.beginning_of_month,
+        to_date: (date + 2.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+      self.create(
+        name: "Quý 2/#{date.year}",
+        from_date: (date + 3.months).beginning_of_month,
+        to_date: (date + 5.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+      self.create(
+        name: "Quý 3/#{date.year}",
+        from_date: (date + 6.months).beginning_of_month,
+        to_date: (date + 8.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+      self.create(
+        name: "Quý 4/#{date.year}",
+        from_date: (date + 9.months).beginning_of_month,
+        to_date: (date + 11.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+      
+      # half year
+      self.create(
+        name: "Nửa đầu năm #{date.year}",
+        from_date: date.beginning_of_month,
+        to_date: (date + 5.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+      self.create(
+        name: "Nửa sau năm #{date.year}",
+        from_date: (date + 6.months).beginning_of_month,
+        to_date: (date + 11.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
+    end
   end
 end
