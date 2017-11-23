@@ -189,6 +189,15 @@ module Erp::Periods
         creator_id: Erp::User.first.id,
         status: self::STATUS_ACTIVE,
       )
+      
+      # whole year
+      self.create(
+        name: "Năm #{date.year}",
+        from_date: date.beginning_of_month,
+        to_date: (date + 11.months).end_of_month,
+        creator_id: Erp::User.first.id,
+        status: self::STATUS_ACTIVE,
+      )
     end
   end
 end
