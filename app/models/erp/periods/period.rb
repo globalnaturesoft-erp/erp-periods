@@ -199,5 +199,20 @@ module Erp::Periods
         status: self::STATUS_ACTIVE,
       )
     end
+    
+    # find by from date to date
+    def self.find_month_by_times(options={})
+      query = self.all
+      
+      if options[:from_date].present?
+        query = query.where(from_date: options[:from_date].beginning_of_month.all_day)
+      end
+      
+      if options[:to_date].present?
+        query = query.where(to_date: options[:to_date].end_of_month.all_day)
+      end
+      
+      query.first
+    end
   end
 end
