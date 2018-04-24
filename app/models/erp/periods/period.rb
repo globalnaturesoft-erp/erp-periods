@@ -114,12 +114,12 @@ module Erp::Periods
 			number_of_months.to_a.reverse.each do |month_offset|
 				date = @today - month_offset.months
 				if month_offset == @today.month
-					start_date = date.beginning_of_year
-					end_date = date.end_of_year
+					start_date = date.beginning_of_year.beginning_of_day
+					end_date = date.end_of_year.end_of_day
 					times << {name: "#{I18n.t('erp.periods.year')} #{date.year}" , from: start_date, to: end_date}
 				else
-					start_date = date.beginning_of_month
-					end_date = date.end_of_month
+					start_date = date.beginning_of_month.beginning_of_day
+					end_date = date.end_of_month.end_of_day
 					times << {name: "#{I18n.t('erp.periods.month')} #{date.month}/#{date.year}", from: start_date, to: end_date}
 				end
 			end
