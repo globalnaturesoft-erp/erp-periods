@@ -7,12 +7,24 @@
 <% end %>
 
 <% content_for :page_toolbar do %>
-    <%= erp_component('button/create', {
-        text: t('.create'),
-        href: erp_periods.new_backend_period_path,
-        class: 'btn-noborder'
-    }) %>
+    <%=
+        erp_component('button/create', {
+            text: t('.create'),
+            href: erp_periods.new_backend_period_path,
+            class: 'btn-noborder'
+        }) if can? :creatable, nil
+    %>
 <% end %>
+
+<%
+    actions = []
+    actions << {
+        text: '<i class="fa fa-trash"></i> '+t('.delete'),
+        url: erp_periods.set_deleted_all_backend_periods_path,
+        data_method: 'PUT',
+        data_confirm: t('.delete_confirm')
+    } if false
+%>
 
 <%= erp_datalist(
     url: erp_periods.list_backend_periods_path,
@@ -21,14 +33,7 @@
             text: t('.name'), name: 'erp_periods_periods.name'
         }
     ],
-    actions: [
-        {
-            text: '<i class="fa fa-trash"></i> '+t('.delete'),
-            url: erp_periods.set_deleted_all_backend_periods_path,
-            data_method: 'PUT',
-            data_confirm: t('.delete_confirm')
-        }
-    ],
+    actions: actions,
     filters: [
         {
             text: t('.active'), name: 'erp_periods_periods.status', value: Erp::Periods::Period::STATUS_ACTIVE, checked: true

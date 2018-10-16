@@ -7,10 +7,17 @@ module Erp
         
         # GET /periods
         def index
+          if Erp::Core.available?("ortho_k")
+            authorize! :system_periods_periods_index, nil
+          end
         end
 
         # POST /periods/list
         def list
+          if Erp::Core.available?("ortho_k")
+            authorize! :system_periods_periods_index, nil
+          end
+          
           @periods = Period.search(params).paginate(:page => params[:page], :per_page => 10)
 
           render layout: nil
@@ -20,6 +27,8 @@ module Erp
         def new
           @period = Period.new
           
+          authorize! :creatable, @period
+          
           if request.xhr?
             render '_form', layout: nil, locals: {period: @period}
           end
@@ -27,11 +36,15 @@ module Erp
     
         # GET /periods/1/edit
         def edit
+          authorize! :updatable, @period
         end
     
         # POST /periods
         def create
           @period = Period.new(period_params)
+          
+          authorize! :creatable, @period
+          
           @period.creator = current_user
           
           if @period.save
@@ -56,6 +69,8 @@ module Erp
     
         # PATCH/PUT /periods/1
         def update
+          authorize! :updatable, @period
+          
           if @period.update(period_params)
             if request.xhr?
               render json: {
@@ -82,6 +97,8 @@ module Erp
     
         # Active /periods/status?id=1
         def set_active
+          authorize! :activatable, @period
+          
           @period.set_active
 
           respond_to do |format|
@@ -96,6 +113,8 @@ module Erp
     
         # Delete /periods/status?id=1
         def set_deleted
+          authorize! :cancelable, @period
+          
           @period.set_deleted
 
           respond_to do |format|
